@@ -32,6 +32,11 @@ def main() -> None:
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8", newline="") as f:
         f.write(text)
+    # Round-trip check: what the scorer reads must be exactly the line
+    # validated above, byte for byte, with no trailing newline added.
+    with open("/output/entry.txt", "r", encoding="utf-8", newline="") as f:
+        written = f.read()
+    assert written == text, "written entry.txt differs from validated line"
 
 
 if __name__ == "__main__":
